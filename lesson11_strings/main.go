@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-
+	workWithStrings()
 }
 
 func workWithStrings() {

@@ -35,7 +35,7 @@ func (c *Cache) Delete(key string) {
 	delete(c.store, key)
 }
 
-func main() {
+func caching() {
 	cache := NewCache()
 	cache.Set("foo", "bar")
 

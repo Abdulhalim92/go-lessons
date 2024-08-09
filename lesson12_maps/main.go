@@ -22,7 +22,7 @@ func main() {
 	mapByMakeWithCap := make(map[string]string, 3)
 	fmt.Printf("Type: %T Value: %#v\n\n", mapByMakeWithCap, mapByMakeWithCap)
 
-	// slice by literal
+	//slice by literal
 	mapByLiteral := map[string]int{"Vasya": 18, "Dima": 20}
 	fmt.Printf("Type: %T Value: %#v\n", mapByLiteral, mapByLiteral)
 	fmt.Printf("Len: %d\n\n", len(mapByLiteral))
@@ -31,31 +31,31 @@ func main() {
 	mapWithNew := *new(map[string]string)
 	fmt.Printf("Type: %T Value: %#v\n\n", mapWithNew, mapWithNew)
 
-	// insert value
+	//insert value
 	mapByMake["First"] = "Vasya"
 	fmt.Printf("Type: %T Value: %#v\n", mapByMake, mapByMake)
 	fmt.Printf("Len: %d\n\n", len(mapByMake))
 
-	// update value
+	//update value
 	mapByMake["First"] = "Petya"
 	fmt.Printf("Type: %T Value: %#v\n", mapByMake, mapByMake)
 	fmt.Printf("Len: %d\n\n", len(mapByMake))
 
-	// get map value
+	//get map value
 	fmt.Println(mapByLiteral["Vasya"])
 
-	// get map default value
+	//get map default value
 	fmt.Println(mapByLiteral["Second"])
 
-	// check value existence
+	//check value existence
 	value, ok := mapByLiteral["Second"]
 	fmt.Printf("Value: %d IsExist: %t\n\n", value, ok)
 
-	// delete value
+	//delete value
 	delete(mapByMake, "First")
 	fmt.Printf("Type: %T Value: %#v\n\n", mapByMake, mapByMake)
 
-	// map iteration
+	//map iteration
 	mapForIteration := map[string]int{"First": 1, "Second": 2, "Third": 3, "Fourth": 4}
 
 	for key, val := range mapForIteration {

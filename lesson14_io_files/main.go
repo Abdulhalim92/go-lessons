@@ -15,4 +15,5 @@ func main() {
 	fmt.Fscan(in, &num)
 
 	fmt.Fprintln(out, num)
+
 }

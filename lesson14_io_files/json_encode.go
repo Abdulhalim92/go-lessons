@@ -7,9 +7,9 @@ import (
 )
 
 type Person struct {
-	Name  string `json:"name"`
-	Age   int    `json:"age"`
-	Email string `json:"email"`
+	Name  string `json:"name,omitempty"`
+	Age   int    `json:"age,omitempty"`
+	Email string `json:"email,omitempty"`
 }
 
 func jsonEncode() {

@@ -17,50 +17,60 @@ func main() {
 	//
 	//fmt.Fprintln(out, num)
 
-	file, err := os.OpenFile("example.json", os.O_CREATE|os.O_RDWR|os.O_TRUNC, 0777)
+	// Открываем файл для чтения и записи
+	file, err := os.OpenFile("example.json", os.O_CREATE|os.O_RDWR, 0777)
 	if err != nil {
 		panic(err)
 	}
 	defer file.Close()
 
+	var p2 []Person
+
+	// Читаем данные из файла
 	data, err := io.ReadAll(file)
 	if err != nil {
 		panic(err)
 	}
 
-	var p2 []Person2
-
-	err = json.Unmarshal(data, &p2)
-	if err != nil {
-		panic(err)
+	// Если файл не пустой, десериализуем данные
+	if len(data) > 0 {
+		err = json.Unmarshal(data, &p2)
+		if err != nil {
+			panic(err)
+		}
 	}
 
-	fmt.Printf("%+v", p2)
-
-	p := Person2{
-		Name:      "Said",
-		Age:       12,
-		IsStudent: true,
+	// Добавляем нового человека в массив
+	p := Person{
+		Name: "Said",
+		Age:  12,
 	}
 
 	p2 = append(p2, p)
 
+	// Возвращаем указатель на начало файла
+	_, err = file.Seek(0, 0)
+	if err != nil {
+		panic(err)
+	}
+
+	// Сериализуем массив обратно в JSON
 	data, err = json.MarshalIndent(p2, "", "    ")
 	if err != nil {
 		panic(err)
 	}
 
+	// Очищаем файл перед записью новых данных
+	err = file.Truncate(0)
+	if err != nil {
+		panic(err)
+	}
+
+	// Записываем данные обратно в файл
 	_, err = file.Write(data)
 	if err != nil {
 		panic(err)
 	}
 
 	fmt.Println("Success")
-}
-
-type Person2 struct {
-	Name      string `json:"name"`
-	Age       int    `json:"age"`
-	IsStudent bool   `json:"is_student"`
-	Address   string `json:"address"`
 }

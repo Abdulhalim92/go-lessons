@@ -4,7 +4,5 @@ go 1.22.4
 
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
-	github.com/unidoc/unioffice v1.35.0
+	github.com/jung-kurt/gofpdf v1.16.2
 )
-
-require github.com/richardlehane/msoleps v1.0.3 // indirect

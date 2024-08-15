@@ -164,29 +164,39 @@ func readAndWriteToFile(fileName string) error {
 // func reverseReadFile(fileName string) (string, error)
 
 func reverseReadFile(fileName string) (string, error) {
+	// Открываем файл
 	file, err := os.Open(fileName)
 	if err != nil {
 		return "", err
 	}
 	defer file.Close()
 
+	// Получаем информацию о файле
 	fileInfo, err := file.Stat()
 	if err != nil {
 		return "", err
 	}
 
+	// Определяем размер файла
 	fileSize := fileInfo.Size()
-	buffer := make([]byte, fileSize)
-	n, err := file.ReadAt(buffer, 0)
-	if err != nil && err != io.EOF {
-		return "", err
+
+	// Создаем буфер для хранения перевернутого содержимого
+	reverseBuffer := make([]byte, 0, fileSize)
+
+	// Читаем файл с конца
+	for i := fileSize - 1; i >= 0; i-- {
+		// Читаем один байт с позиции i
+		buf := make([]byte, 1)
+		_, err := file.ReadAt(buf, i)
+		if err != nil {
+			return "", err
+		}
+
+		// Добавляем байт в буфер
+		reverseBuffer = append(reverseBuffer, buf[0])
 	}
 
-	reverseBuffer := make([]byte, n)
-	for i := 0; i < n; i++ {
-		reverseBuffer[i] = buffer[n-1-i]
-	}
-
+	// Возвращаем перевернутое содержимое как строку
 	return string(reverseBuffer), nil
 }
 

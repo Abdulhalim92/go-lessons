@@ -37,12 +37,40 @@ func handlerFunc(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Hello"))
 }
 
-func main() {
-	http.HandleFunc("/", handlerFunc)
+func sayHello(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Привет, это мой HTTP-сервер на Go!\n")
 
-	err := http.ListenAndServe(":8080", nil)
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("Hello"))
+}
+
+func main() {
+
+	mux := http.NewServeMux()
+	//mux.HandleFunc("/", handlerFunc)
+	//mux.HandleFunc("/hello", sayHello)
+
+	myHandler := NewMyHandler(mux)
+	myHandler.mux.HandleFunc("/", handlerFunc)
+	myHandler.mux.HandleFunc("/hello", sayHello)
+
+	fmt.Printf("Server started: port: %s", ":8080\n")
+
+	err := http.ListenAndServe(":8080", myHandler)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("Server started: port: %s", ":8080")
+
+}
+
+type MyHandler struct {
+	mux *http.ServeMux
+}
+
+func NewMyHandler(mux *http.ServeMux) *MyHandler {
+	return &MyHandler{mux: mux}
+}
+
+func (h *MyHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	h.mux.ServeHTTP(w, r)
 }
